@@ -1,4 +1,4 @@
-//import fetch from "cross-fetch";
+import fetch from "cross-fetch";
 import FormData from "form-data";
 import { AddAdmin } from "./types/AddAdmin";
 import { AddAdminResponse } from "./types/AddAdminResponse";
@@ -148,7 +148,7 @@ export class LemmyHttp {
   #apiUrl: string;
   #headers: { [key: string]: string } = {};
   #pictrsUrl: string;
-  #fetchFunction = fetch;
+  #fetchFunction;
 
   /**
    * Generates a new instance of LemmyHttp.
@@ -168,8 +168,23 @@ export class LemmyHttp {
     if (options?.headers) {
       this.#headers = options.headers;
     }
+    const globalObject = this.getGlobalObject();
     if (options?.fetchFunction) {
-      this.#fetchFunction = options.fetchFunction;
+      this.#fetchFunction = options.fetchFunction.bind(globalObject);
+    } else {
+      this.#fetchFunction = fetch.bind(globalObject);
+    }
+  }
+
+  getGlobalObject() {
+    if (typeof globalThis !== 'undefined') {
+      return globalThis;
+    } else if (typeof window !== 'undefined') {
+      return window;
+    } else if (typeof global !== 'undefined') {
+      return global;
+    } else {
+      throw new Error("Could not determine global object");
     }
   }
 
