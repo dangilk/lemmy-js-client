@@ -1,5 +1,5 @@
 {
-  "name": "lemmy-js-client",
+  "name": "djgilks-lemmy-js-client",
   "version": "0.19.0-rc.1",
   "description": "A javascript / typescript client for Lemmy",
   "repository": "https://github.com/LemmyNet/lemmy-js-client",
@@ -26,7 +26,6 @@
     ]
   },
   "dependencies": {
-    "cross-fetch": "^4.0.0",
     "form-data": "^4.0.0"
   },
   "devDependencies": {
